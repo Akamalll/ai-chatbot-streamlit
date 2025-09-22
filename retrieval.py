@@ -24,6 +24,9 @@ def _load_domain_corpus(domain: str) -> List[str]:
 		with open(path, "r", encoding="utf-8") as f:
 			texts.append(f.read())
 	else:
+		# Jika folder data tidak ada, kembalikan kosong agar sistem tetap berjalan
+		if not os.path.isdir(DATA_DIR):
+			return []
 		# Jika file domain tidak ada, muat semua .txt yang tersedia di folder data
 		for name in sorted(os.listdir(DATA_DIR)):
 			if name.lower().endswith(".txt"):
