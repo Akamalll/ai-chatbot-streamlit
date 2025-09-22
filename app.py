@@ -22,6 +22,11 @@ def sidebar_controls() -> dict:
 	gaya = st.sidebar.radio("Gaya Bahasa", ["Formal", "Santai"], index=0)
 	model_name = st.sidebar.text_input("Nama Model Gemini", "gemini-1.5-flash", help="Contoh: gemini-1.5-flash atau gemini-1.5-pro")
 	api_key_override = st.sidebar.text_input("Google API Key", value="", type="password", help="Masukkan kunci API dari Google AI Studio.")
+	col1, col2 = st.sidebar.columns(2)
+	with col1:
+		clear_chat = st.button("Clear Chat")
+	with col2:
+		new_chat = st.button("Chat Baru")
 	st.sidebar.caption(
 		"Catatan: Gunakan API Key dari Google AI Studio (Generative Language API)."
 	)
@@ -29,6 +34,8 @@ def sidebar_controls() -> dict:
 		"gaya": gaya,
 		"model_name": model_name,
 		"api_key_override": api_key_override,
+		"clear_chat": clear_chat,
+		"new_chat": new_chat,
 	}
 
 
@@ -46,8 +53,12 @@ def render_chat():
 	st.caption("Chatbot berbasis Google Gemini. Masukkan API key di sidebar, pilih model, lalu mulai bertanya.")
 
 	controls = sidebar_controls()
-	# Domain default untuk KB dan prompt
-	domain_const = "Edukasi"
+	# Domain kosong: tidak menampilkan label domain pada prompt
+	domain_const = ""
+	# Aksi kontrol chat
+	if controls.get("clear_chat") or controls.get("new_chat"):
+		st.session_state.history = []
+		st.rerun()
 	kb = ensure_kb(domain_const)
 	st.session_state.model_name = controls["model_name"]
 	api_key = controls.get("api_key_override")

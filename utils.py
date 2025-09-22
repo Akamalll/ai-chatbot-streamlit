@@ -51,10 +51,11 @@ def compose_prompt(
 	recent = messages[-(max_history*2):] if max_history > 0 else messages
 	history_text = "\n".join([f"{m['role']}: {m['content']}" for m in recent])
 
-	system = (
-		f"Anda adalah asisten AI berbahasa Indonesia dengan gaya {style}. "
-		f"Fokus domain: {domain}. Gunakan konteks jika relevan, dan jawab ringkas, jelas, dan akurat."
-	)
+	base = f"Anda adalah asisten AI berbahasa Indonesia dengan gaya {style}. "
+	if domain and domain.strip():
+		system = base + f"Fokus domain: {domain}. Gunakan konteks jika relevan, dan jawab ringkas, jelas, dan akurat."
+	else:
+		system = base + "Gunakan konteks jika relevan, dan jawab ringkas, jelas, dan akurat."
 
 	prompt = (
 		f"[SYSTEM]\n{system}\n\n"
