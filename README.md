@@ -42,19 +42,7 @@ Untuk memakai Google Gemini:
 ### Screenshots UI
 Ambil tangkapan layar dari UI Streamlit (halaman utama dan contoh percakapan). Simpan untuk pelaporan tugas.
 
-### Upload ke GitHub
-1. Inisialisasi repo:
-```bash
-git init
-git add .
-git commit -m "init: ai chatbot streamlit + retrieval"
-```
-2. Buat repo di GitHub (mis. `ai-chatbot-streamlit`).
-3. Tambahkan remote dan push:
-```bash
-git remote add origin https://github.com/<username>/ai-chatbot-streamlit.git
-git branch -M main
-git push -u origin main
+
 ```
 
 ### Kustomisasi Lanjutan
