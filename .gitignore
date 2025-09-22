@@ -1,0 +1,16 @@
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+*.pyo
+*.DS_Store
+/.streamlit/
+/.cache/
+/.idea/
+/.vscode/
+*.log
+.env
+*.env
+screenshots/
+
+
