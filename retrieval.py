@@ -10,6 +10,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 
 def _load_domain_corpus(domain: str) -> List[str]:
+	# Coba file spesifik domain terlebih dahulu (untuk kompatibilitas lama)
 	filename = {
 		"edukasi": "edukasi.txt",
 		"gizi": "gizi.txt",
@@ -17,12 +18,26 @@ def _load_domain_corpus(domain: str) -> List[str]:
 		"produktivitas": "produktivitas.txt",
 	}.get(domain.lower(), "edukasi.txt")
 	path = os.path.join(DATA_DIR, filename)
-	if not os.path.exists(path):
-		return []
-	with open(path, "r", encoding="utf-8") as f:
-		text = f.read()
-	# naive split per baris/kalimat singkat
-	chunks = [c.strip() for c in text.split("\n") if c.strip()]
+
+	texts: List[str] = []
+	if os.path.exists(path):
+		with open(path, "r", encoding="utf-8") as f:
+			texts.append(f.read())
+	else:
+		# Jika file domain tidak ada, muat semua .txt yang tersedia di folder data
+		for name in sorted(os.listdir(DATA_DIR)):
+			if name.lower().endswith(".txt"):
+				p = os.path.join(DATA_DIR, name)
+				try:
+					with open(p, "r", encoding="utf-8") as f:
+						texts.append(f.read())
+				except Exception:
+					continue
+
+	# Split sederhana per baris
+	chunks: List[str] = []
+	for text in texts:
+		chunks.extend([c.strip() for c in text.split("\n") if c.strip()])
 	return chunks
 
 
